@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "9706f8fcc96aece529f4a4c220e8138c",
+    "revision": "e58fe524ac6dbb8ff6849055f21703cf",
     "url": "/lenastore/index.html"
   },
   {
@@ -52,7 +52,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/lenastore/static/css/6.3bb66eef.chunk.css"
   },
   {
-    "revision": "f3351419e5c6637c378d",
+    "revision": "0a1f43069671dceb8a7b",
     "url": "/lenastore/static/css/main.19dc44c8.chunk.css"
   },
   {
@@ -164,8 +164,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/lenastore/static/js/7.8522641b.chunk.js"
   },
   {
-    "revision": "f3351419e5c6637c378d",
-    "url": "/lenastore/static/js/main.d869dc22.chunk.js"
+    "revision": "0a1f43069671dceb8a7b",
+    "url": "/lenastore/static/js/main.ba81fe12.chunk.js"
   },
   {
     "revision": "46c29d1c8d89f9e0a004",
