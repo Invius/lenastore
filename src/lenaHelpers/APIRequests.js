@@ -1,10 +1,17 @@
 import axios from "axios";
 import * as routes from "../lenaHelpers/Constants.js";
 
+const commonHeaders = {
+  "Access-Control-Allow-Origin": '*',
+}
+
+const configAxios = {
+  headers: commonHeaders,
+};
 
 export const home = () =>{
     return new Promise((resolve) =>{
-        axios.get(routes.baseURL).then((response) => {
+        axios.get(routes.baseURL, configAxios).then((response) => {
             resolve(response.data);
           }).catch((err)=>{
             resolve(err);
@@ -24,7 +31,7 @@ export const products = (category) =>{
     return new Promise((resolve) =>{
         axios.post(routes.productsByCategory, {
             category
-        }).then((response) => {
+        }, configAxios).then((response) => {
             resolve(response.data.products);
           }).catch((err)=>{
             resolve(err);
@@ -47,7 +54,7 @@ export const photo = (id, category) =>{
         axios.post(routes.photo, {
             id,
             category
-        }).then((response) => {
+        }, configAxios).then((response) => {
             resolve(response.data.productPhoto);
           }).catch((err)=>{
             resolve(err);
@@ -65,7 +72,7 @@ export const photo = (id, category) =>{
     */
 export const categories = (id, category) =>{
     return new Promise((resolve) =>{
-        axios.get(routes.categories).then((response) => {
+        axios.get(routes.categories, configAxios).then((response) => {
             resolve(response.data.categories);
           }).catch((err)=>{
             resolve(err);
@@ -99,7 +106,7 @@ export const categories = (id, category) =>{
           address,
           products,
           hasToSave
-      }).then((response) => {
+      }, configAxios).then((response) => {
           console.log(response.data);
           resolve(response.data);
         }).catch((err)=>{
@@ -123,7 +130,7 @@ export const categories = (id, category) =>{
     return new Promise((resolve) =>{
       axios.post(routes.showSale, {
           id
-      }).then((response) => {
+      }, configAxios).then((response) => {
           console.log(response.data);
           resolve(response.data);
         }).catch((err)=>{
@@ -146,7 +153,7 @@ export const categories = (id, category) =>{
   */
   export const test = () =>{
     return new Promise((resolve) =>{
-      axios.get(routes.test).then((response) => {
+      axios.get(routes.test, configAxios).then((response) => {
           console.log(response.data);
           resolve(response.data);
         }).catch((err)=>{
@@ -165,7 +172,7 @@ export const categories = (id, category) =>{
   */
   export const testPhoto = () =>{
     return new Promise((resolve) =>{
-      axios.get(routes.testPhoto).then((response) => {
+      axios.get(routes.testPhoto, configAxios).then((response) => {
           console.log(response.data.productPhoto);
           resolve(response.data.productPhoto);
         }).catch((err)=>{
@@ -190,7 +197,7 @@ export const categories = (id, category) =>{
       axios.post(routes.comment, {
         id,
         comment
-      }).then((response) => {
+      }, configAxios).then((response) => {
           console.log(response.data);
           resolve(response.data);
         }).catch((err)=>{
@@ -224,7 +231,7 @@ export const config = (route) =>{
   return new Promise((resolve) =>{
     console.log(configEnum[route]);
     if(configEnum[route]){
-      axios.get(configEnum[route]).then((response) => {
+      axios.get(configEnum[route], configAxios).then((response) => {
         console.log(response.data);
         resolve(response.data);
       }).catch((err)=>{

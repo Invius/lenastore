@@ -1,4 +1,4 @@
-export const baseURL = 'http://invius.ddns.net/vc';
+export const baseURL = 'https://redirect-without-cors-and50-mb.vercel.app';
 export const productsByCategory = baseURL + '/products/bycategory';
 export const photo = baseURL + '/products/photo';
 export const categories = baseURL + '/products/categories';
