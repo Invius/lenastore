@@ -206,14 +206,16 @@ export default function ProductsView(props) {
                 ]);
                 setPurchaseState(EPurchaseState.val(data.details.state));
                 if(!isOnlyComments){
+                  console.log("test", isOnlyComments);
                   setTotal(data.details.priceTotal);
                   setProducts(data.products.products);
                   setIdSaved(id);
                 }
-                
+
                 api.config(data.details.state).then((conf)=>{
                   setWarnings(conf.config);
                 });
+                
               }
               props.setIsLoading(false);
             }).catch((err)=>{
