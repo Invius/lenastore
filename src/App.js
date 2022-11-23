@@ -42,7 +42,7 @@ function App() {
         }else{
           setShowNoService(false);
         }
-        setTimeout(repeatSignal, 10000);
+        setTimeout(repeatSignal, 100000);
       });
     }
     
