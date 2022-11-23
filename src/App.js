@@ -9,7 +9,7 @@ import NoService from "./lenaViews/NoService/NoService";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.js";
 import "./App.min.css";
-import '.\\LenaCSS\\LenaStyles.css';
+import './LenaCSS/LenaStyles.css';
 
 import LoadingOverlay from 'react-loading-overlay';
 import PuffLoader from 'react-spinners/BounceLoader';
