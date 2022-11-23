@@ -192,7 +192,7 @@ export default function ProductsView(props) {
           props.setIsLoading(true);
           const idForInterval = id;
 
-          const requestToCheck = ()=>{
+          const requestToCheck = (isOnlyComments)=>{
             console.log('updates');
             api.showSale(idForInterval).then((data)=>{
               if(data.details && data.products && data.conversations && data.conversations.messages){
@@ -204,10 +204,12 @@ export default function ProductsView(props) {
                   },
                   ...data.conversations.messages
                 ]);
-                setTotal(data.details.priceTotal);
                 setPurchaseState(EPurchaseState.val(data.details.state));
-                setProducts(data.products.products);
-                setIdSaved(id);
+                if(!isOnlyComments){
+                  setTotal(data.details.priceTotal);
+                  setProducts(data.products.products);
+                  setIdSaved(id);
+                }
                 
                 api.config(data.details.state).then((conf)=>{
                   setWarnings(conf.config);
@@ -223,7 +225,7 @@ export default function ProductsView(props) {
             clearInterval(timer);
           }
 
-          const inter = setInterval(requestToCheck, 10000);
+          const inter = setInterval(()=>{requestToCheck(true)}, 50000);
 
           requestToCheck();
 
