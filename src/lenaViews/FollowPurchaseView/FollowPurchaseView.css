@@ -4,11 +4,6 @@
     -webkit-text-stroke-color: black;
     font-weight: bold;
   }
-  
-  .follow-basket-fpv{
-    position: fixed;
-    bottom: 10%;
-  }
 
 .messages-follow-container-fpv::-webkit-scrollbar{
     width: 1em;
@@ -119,4 +114,18 @@
 .margins-md-fpv{
     margin-top: 48px;
     margin-bottom: 100px;
+}
+
+
+.search-container-fpv{
+    width: 99.9%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+}
+
+.follow-basket-fpv{
+    margin-top: -60px;
 }

@@ -342,31 +342,32 @@ export default function ProductsView(props) {
               }
             </div> 
           </div>
-          <div className="follow-basket-fpv container">
-            <div className="input-container-fpv">
-              <span className="col-sm-1">
-                  ID da Compra
-              </span>
-              <input
-                    id="follow-id"
-                    name="followid"
-                    type="text"
-                    className="form-control col-sm"
-                    placeholder="ID"
-                    required
-                    value={id}
-                    onChange={(e)=>setId(e.target.value)}
-              />
-              <button
-                type="button"
-                className="btn btn-sm btn-primary base-button-color"
-                title="search"
-                onClick={checkPurchase}
-              >
-              <IoSearchCircle className='icon-fpv'/>
-              </button>
+          <div className={"search-container-fpv"}>
+            <div className="follow-basket-fpv container">
+              <div className="input-container-fpv">
+                <span className="col-sm-1">
+                    ID da Compra
+                </span>
+                <input
+                      id="follow-id"
+                      name="followid"
+                      type="text"
+                      className="form-control col-sm"
+                      placeholder="ID"
+                      required
+                      value={id}
+                      onChange={(e)=>setId(e.target.value)}
+                />
+                <button
+                  type="button"
+                  className="btn btn-sm btn-primary base-button-color"
+                  title="search"
+                  onClick={checkPurchase}
+                >
+                <IoSearchCircle className='icon-fpv'/>
+                </button>
+              </div>
             </div>
-            
           </div>
           <Modal {...warningData}/>
           <div hidden={true}>
