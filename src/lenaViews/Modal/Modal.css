@@ -1,5 +1,6 @@
 .container-m{
    position: fixed;
+   min-width: 320px;
    width: 40%;
    padding: 24px 18px;
    background-color: white;
