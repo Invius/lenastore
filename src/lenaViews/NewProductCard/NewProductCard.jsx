@@ -14,6 +14,7 @@ export default function NewProductCard(props) {
     const product = props.data;
     const [img64, setImg64] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [isScrollable, setIsScrollable] = useState(false);
 
     const { openGallery } = useLightgallery();
 
@@ -40,6 +41,12 @@ export default function NewProductCard(props) {
     if(img64 && !props.photos[product.id]){
         props.setPhotos({...props.photos, [product.id]: [`data:image/jpeg;base64,${img64}`]});
     }
+
+    const height = document.querySelector('.description-container-npc.' + product.id).offsetHeight;
+    if(height >= 119){
+        console.log(height);
+        setIsScrollable(true);
+    }
   }, [img64]);
 
   return (
@@ -65,7 +72,9 @@ export default function NewProductCard(props) {
                 </div>
                 <div className={'description-name-npc item-npc'}>
                     <h4>{ product ? product.name : '' }</h4>
-                    <p>{ product ? product.description : '' }</p> 
+                    <div className={"description-container-npc " + product.id + (isScrollable ? " scroll-npc" : "")} >
+                        <p>{ product ? product.description : '' }</p> 
+                    </div>
                 </div>
                 {props.showPrice ? (
                     <div className={'buy-npc'}>

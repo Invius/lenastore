@@ -128,3 +128,25 @@
         opacity: 0.1; 
     }
 }
+
+.description-container-npc{
+    max-height: 120px;
+    overflow-y: auto;
+    position: relative;
+}
+
+.scroll-npc::after{
+    content: 'V';
+    position: sticky;
+    bottom: 0;
+    left: 50%;
+    color: #4630ab;
+    transform: translate(-50%, 0);
+
+    -webkit-animation: pulse 3.5s infinite ease-in-out;
+    -o-animation: pulse 3.5s infinite ease-in-out;
+    -ms-animation: pulse 3.5s infinite ease-in-out; 
+    -moz-animation: pulse 3.5s infinite ease-in-out; 
+    animation: pulse 3.5s infinite ease-in-out;  
+}
+

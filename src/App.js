@@ -95,6 +95,7 @@ function App() {
                       </Suspense>
                 </React.Fragment>
               </BrowserRouter>
+              <div className="extra-height"/>
             </main>
             <Footer/>
             {showNoService ? <NoService/> : <></>}
