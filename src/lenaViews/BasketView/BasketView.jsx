@@ -31,53 +31,58 @@ export default function ProductsView(props) {
         
 
         const navigate = useNavigate();
-        const stateActions = [[
-          {
-            name: 'Sim',
-            callback: ()=>{
-              props.setIsLoading(true);
-              api.newSale(name, phoneNumber, address, products.map((product)=> {
-                return({
-                  id: product.id, 
-                  category: product.category
-                });
-              }), true).then((data)=>{
-                console.log(data);
-                if(data.success){
-                  storage.cleanBasket();
-                  storage.insertPlacedOrderData(data.id, data.total);
-                  navigate('/PlacedOrder');
-                }
 
-                props.setIsLoading(false);
-              }).catch((err)=>{
-                console.log(err);
-                props.setIsLoading(false);
-              });
+        const dismissModal = () =>{
+          const dataToChange = warningData;
+          dataToChange.isVisible = false; 
+          setWarningData(dataToChange);
+        }
+
+        const confirmDoPurchase = ()=>{
+          props.setIsLoading(true);
+          api.newSale(name, phoneNumber, address, products.map((product)=> {
+            return({
+              id: product.id, 
+              category: product.category
+            });
+          }), true).then((data)=>{
+            console.log(data);
+            if(data.success){
+              storage.cleanBasket();
+              storage.insertPlacedOrderData(data.id, data.total);
+              navigate('/PlacedOrder');
             }
-          },
-          {
-            name: 'Não',
-            callback: ()=>{
-              setWarningData({
-                ...warningData,
-                isVisible: false
-              });
-            }
-          },
-        ],[
-          {
-            name: 'Ok',
-            callback: ()=>{
-              setWarningData({
-                ...warningData,
-                isVisible: false
-              });
-            }
-          },
-        ],];
+
+            props.setIsLoading(false);
+          }).catch((err)=>{
+            console.log(err);
+            props.setIsLoading(false);
+          });
+        }
 
         const [photos, setPhotos] = useState({});
+        const [warningAction] = useState(
+          [
+            {
+              name: 'Ok',
+              callback: dismissModal
+            },
+          ]
+        );
+
+        const [purchaseAction] = useState(
+          [
+            {
+              name: 'Sim',
+              callback: confirmDoPurchase,
+            },
+            {
+              name: 'Não',
+              callback: dismissModal,
+            },
+          ]);
+
+        const [stateActions] = useState([purchaseAction, warningAction]);
 
         const [view,] = useState('list');
         const [name, setName] = useState('');
@@ -110,7 +115,7 @@ export default function ProductsView(props) {
             category: product.category
           });
         }), false).then((data)=>{
-          if(data && data.total > -1){
+          if(data && (data.total > -1 || +data.total > -1)){
             console.log(data);
             setTotalPrice(data.total);
           }
@@ -137,25 +142,28 @@ export default function ProductsView(props) {
         const hasAddress = address.replaceAll(' ', '') !== '' && address.replaceAll(' ', '').length > 10; 
 
         if(!hasAddress || !hasName || !hasPhone){
-          setWarningData({
-            ...warningData,
-            message:  <> Faltam preencher: <br/>
-                        {!hasName ? <> Nome com mais de 10 letras<br/></> : ''} 
-                        {!hasPhone ? <> Número de telefone com 9 digitos<br/></> : ''} 
-                        {!hasAddress ? <>Morada com mais de 10 letras</>: ''} 
-                      </>,
-            isVisible: true,
-            isWarning: true,
-            actions: stateActions[1]
-          });
+          const dataToChange = warningData;
+          
+          dataToChange.message = <> Faltam preencher: <br/>
+            {!hasName ? <> Nome com mais de 10 letras<br/></> : ''} 
+            {!hasPhone ? <> Número de telefone com 9 digitos<br/></> : ''} 
+            {!hasAddress ? <>Morada com mais de 10 letras</>: ''} 
+          </>;
+          dataToChange.isVisible = true;
+          dataToChange.isWarning = true;
+          dataToChange.actions = stateActions[1];
+
+          setWarningData(warningData);
         }else{
-          setWarningData({
-            ...warningData,
-            message: 'Tem a certeza que quer avançar com o pedido?',
-            isVisible: true,
-            isWarning: false,
-            actions: stateActions[0]
-          });
+
+          const dataToChange = warningData;
+          
+          dataToChange.message = 'Tem a certeza que quer avançar com o pedido?';
+          dataToChange.isVisible = true;
+          dataToChange.isWarning = false;
+          dataToChange.actions = stateActions[0];
+          
+          setWarningData(warningData);
         }
       }
 
@@ -175,28 +183,6 @@ export default function ProductsView(props) {
         storage.removeProductFromBasket(product);
         updateProducts();
       }
-      
-      /* 
-      <div className="row">
-              <div className="col-md-9">
-                <span className="display-5 px-3 bg-white rounded shadow basket-total top-basket-total">
-                  total 
-                  <br />
-                  {totalPrice ?? 0} €
-                </span>
-              </div> 
-            </div>
-
-            normal
-            <div className="col-md-3">
-                <span className="display-5 px-3 bg-white rounded shadow basket-total side-basket-total">
-                  total
-                  <br />
-                  {totalPrice ?? 0} €
-                </span>
-              </div>
-
-      */
 
     return (
         <React.Fragment>
@@ -297,7 +283,13 @@ export default function ProductsView(props) {
               </div>
             </div> 
           </div>
-          <Modal {...warningData}/>
+          <Modal {...warningData}
+            title={warningData.title}
+            message={warningData.message}
+            actions={warningData.actions}
+            isWarning={warningData.isWarning}
+            isVisible={warningData.isVisible}
+          />
           <div hidden={true}>
               {Object.keys(photos).map((photoCollection, index)=>{
                   return photos[photoCollection].map((item, innerIndex)=>{
