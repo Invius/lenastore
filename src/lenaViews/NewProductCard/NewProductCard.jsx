@@ -1,25 +1,31 @@
 import './NewProductCard.css';
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import * as api from "../../lenaHelpers/APIRequests.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartPlus } from "@fortawesome/free-solid-svg-icons";
+import LoadingOverlay from 'react-loading-overlay';
+import PuffLoader from 'react-spinners/BounceLoader';
 import { MdOutlineZoomIn, MdRemoveShoppingCart } from 'react-icons/md';
 import {
     useLightgallery,
-  } from "react-lightgallery"
+  } from "react-lightgallery";
 
 export default function NewProductCard(props) {
     const product = props.data;
     const [img64, setImg64] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     const { openGallery } = useLightgallery();
 
   useEffect(()=>{
     if(product &&  product.id && product.category){
+        setIsLoading(true);
         const callback = (data) => {
             if(data && data.img64){
                 setImg64(data.img64);
             }
+
+            setIsLoading(false);
         }
         console.log(props.isTest);
         if(props.isTest){
@@ -41,11 +47,21 @@ export default function NewProductCard(props) {
         <div className={'card-npc'}>
             <div className={'container-npc'}>
                 <div className="container-img-npc" onClick={()=>{
-                                                    img64 && openGallery(product.id)}}>
-                <img src={`data:image/jpeg;base64,${img64}`} className="img-fluid img-npc" alt="..." />
-                <div className="zoom-container-npc">
-                    <MdOutlineZoomIn className="zoom-npc"/>
-                </div>
+                                                    img64 && !isLoading && openGallery(product.id)    
+                                                    }}>
+                                                    
+                    {
+                        isLoading ? <LoadingOverlay
+                            active={isLoading}
+                            spinner={<PuffLoader color="#36d7b7" />}
+                            className="loading-npc"></LoadingOverlay> :
+                            <>
+                                <img src={`data:image/jpeg;base64,${img64}`} className="img-fluid img-npc" alt="..." />
+                                <div className="zoom-container-npc">
+                                    <MdOutlineZoomIn className="zoom-npc"/>
+                                </div>
+                            </>                                
+                    }
                 </div>
                 <div className={'description-name-npc item-npc'}>
                     <h4>{ product ? product.name : '' }</h4>

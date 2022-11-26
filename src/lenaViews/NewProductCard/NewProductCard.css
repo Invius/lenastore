@@ -52,6 +52,13 @@
     height: 100%;
 }
 
+.loading-npc{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-30px, -30px);
+}
+
 .buy-npc{
     display: flex;
     flex-direction: column;
