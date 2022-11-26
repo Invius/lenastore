@@ -17,7 +17,7 @@ const CardServices = (props) => {
           <div className="col">
             <div className="ml-3">
               <span className="font-weight-bold">Entrega</span>
-              <p className="text-muted small">{props.delivery}</p>
+              <p className="small">{props.delivery}</p>
             </div>
           </div>
         </div>
@@ -28,7 +28,7 @@ const CardServices = (props) => {
           <div className="col">
             <div className="ml-3">
               <span className="font-weight-bold">Suporte</span>
-              <p className="text-muted small m-0">{props.support}</p>
+              <p className="small m-0">{props.support}</p>
             </div>
           </div>
         </div>
@@ -39,7 +39,7 @@ const CardServices = (props) => {
           <div className="col">
             <div className="ml-3">
               <span className="font-weight-bold">Devolução</span>
-              <p className="text-muted small m-0">
+              <p className="small m-0">
                 {props.returns}
               </p>
             </div>

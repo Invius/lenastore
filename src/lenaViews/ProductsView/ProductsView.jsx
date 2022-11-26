@@ -53,13 +53,13 @@ export default function ProductsView(props) {
           setDelivery(conf.config);
         });
 
-      api.config('support').then((conf)=>{
-          setSupport(conf.config);
-      });
+        api.config('support').then((conf)=>{
+            setSupport(conf.config);
+        });
 
-      api.config('returns').then((conf)=>{
-          setReturns(conf.config);
-      });
+        api.config('returns').then((conf)=>{
+            setReturns(conf.config);
+        });
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
       }, []);
@@ -194,7 +194,11 @@ export default function ProductsView(props) {
                         </div>
                       );
                     })}
-                    {isMD ? <CardServices /> : <></>}
+                    {isMD ? <CardServices
+                                delivery={delivery}
+                                support={support}
+                                returns={returns}
+                                /> : <></>}
                 </div>
                 <hr />
                 <Paging
