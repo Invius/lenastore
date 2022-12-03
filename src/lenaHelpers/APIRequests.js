@@ -107,7 +107,7 @@ export const categories = (id, category) =>{
           products,
           hasToSave
       }, configAxios).then((response) => {
-          console.log(response.data);
+          console.log({newSale: response.data});
           resolve(response.data);
         }).catch((err)=>{
           resolve(err);

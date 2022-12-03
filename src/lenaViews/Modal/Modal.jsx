@@ -17,7 +17,7 @@ export default function Modal(props) {
                     type="button"
                     className="btn btn-sm btn-primary action-m"
                     title="Add to cart"
-                    onClick={action.callback}
+                    onClick={()=>action.callback(props.arg)}
                   >
                   {action.name}
                   </button>

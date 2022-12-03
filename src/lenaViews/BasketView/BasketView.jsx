@@ -28,19 +28,19 @@ const NewProductCard = lazy(() =>
 export default function ProductsView(props) {
 
         const isMD = getCSSQuery(useMediaQuery, 'md');
-        
 
         const navigate = useNavigate();
 
         const dismissModal = () =>{
-          const dataToChange = warningData;
+          const dataToChange = JSON.parse(JSON.stringify(warningData));
           dataToChange.isVisible = false; 
           setWarningData(dataToChange);
         }
 
-        const confirmDoPurchase = ()=>{
+
+        const confirmDoPurchase = (args) =>{
           props.setIsLoading(true);
-          api.newSale(name, phoneNumber, address, products.map((product)=> {
+          api.newSale(args.name, args.phoneNumber, args.address, args.products.map((product)=> {
             return({
               id: product.id, 
               category: product.category
@@ -52,13 +52,15 @@ export default function ProductsView(props) {
               storage.insertPlacedOrderData(data.id, data.total);
               navigate('/PlacedOrder');
             }
-
+  
             props.setIsLoading(false);
           }).catch((err)=>{
             console.log(err);
             props.setIsLoading(false);
           });
         }
+
+        
 
         const [photos, setPhotos] = useState({});
         const [warningAction] = useState(
@@ -95,7 +97,8 @@ export default function ProductsView(props) {
           message: 'Team a certeza que quer avançar com a compra?',
           actions: stateActions[0],
           isWarning: false,
-          isVisible: false
+          isVisible: false,
+          arg: '',
         });
 
 
@@ -103,6 +106,11 @@ export default function ProductsView(props) {
         updateProducts();
       // eslint-disable-next-line react-hooks/exhaustive-deps
       }, []);
+
+      useEffect(() => {
+        console.log({products, test:''});
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      }, [products]);
 
       const updateProducts = () =>{
         props.setIsLoading(true);
@@ -119,6 +127,8 @@ export default function ProductsView(props) {
             console.log(data);
             setTotalPrice(data.total);
           }
+
+          console.log({ toremove: data.productsToRemove, products});
 
           if(data && data.productsToRemove && data.productsToRemove.length){
             data.productsToRemove.forEach(product => {
@@ -142,7 +152,7 @@ export default function ProductsView(props) {
         const hasAddress = address.replaceAll(' ', '') !== '' && address.replaceAll(' ', '').length > 10; 
 
         if(!hasAddress || !hasName || !hasPhone){
-          const dataToChange = warningData;
+          const dataToChange = JSON.parse(JSON.stringify(warningData));
           
           dataToChange.message = <> Faltam preencher: <br/>
             {!hasName ? <> Nome com mais de 10 letras<br/></> : ''} 
@@ -153,17 +163,19 @@ export default function ProductsView(props) {
           dataToChange.isWarning = true;
           dataToChange.actions = stateActions[1];
 
-          setWarningData(warningData);
+          setWarningData(dataToChange);
         }else{
 
-          const dataToChange = warningData;
+          const dataToChange = JSON.parse(JSON.stringify(warningData));
           
           dataToChange.message = 'Tem a certeza que quer avançar com o pedido?';
           dataToChange.isVisible = true;
           dataToChange.isWarning = false;
           dataToChange.actions = stateActions[0];
+
+          dataToChange.arg = {products, name, phoneNumber, address};
           
-          setWarningData(warningData);
+          setWarningData(dataToChange);
         }
       }
 
@@ -289,6 +301,7 @@ export default function ProductsView(props) {
             actions={warningData.actions}
             isWarning={warningData.isWarning}
             isVisible={warningData.isVisible}
+            arg={warningData.arg}
           />
           <div hidden={true}>
               {Object.keys(photos).map((photoCollection, index)=>{
