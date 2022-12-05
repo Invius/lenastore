@@ -26,6 +26,21 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.ready.then(registration => {
+          registration.unregister();
+
+          if (caches) {
+            // Service worker cache should be cleared with caches.delete()
+            console.log("Cleared Cash!");
+            caches.keys().then(async (names) => {
+              await Promise.all(names.map(name => caches.delete(name)));
+            });
+          }
+  });
+}
+    </script>
 </head>
 
 <body>
