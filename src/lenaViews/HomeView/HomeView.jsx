@@ -63,7 +63,7 @@ export default function HomeView(props) {
                     <img src="/images/LenaIntroHome/finalAlpha.png" alt="" />
                     <div className="intro-actions-hv">
                         <div className="intro-text-hv">
-                            <h1>{storeName + ' development3'}</h1>
+                            <h1>{storeName + ' development4'}</h1>
                             <p>{introMessage}</p>
                         </div>
                         <div className="intro-buttons-container-hv">
