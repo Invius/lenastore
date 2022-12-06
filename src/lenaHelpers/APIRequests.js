@@ -87,6 +87,7 @@ export const categories = (id, category) =>{
     "name": "",
     "phone": "",
     "address": "",
+    "NIF": "",
     "products": [{"id": "", "category": ""}],
     "hasToSave": true
     }
@@ -98,13 +99,14 @@ export const categories = (id, category) =>{
       productsToRemove:[]
     }
   */
-  export const newSale = (name, phone, address, products, hasToSave) =>{
+  export const newSale = (name, phone, address, NIF, products, hasToSave) =>{
     return new Promise((resolve) =>{
       axios.post(routes.newSale, {
           name,
           phone,
           address,
           products,
+          NIF,
           hasToSave
       }, configAxios).then((response) => {
           console.log({newSale: response.data});

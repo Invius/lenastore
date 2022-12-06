@@ -200,7 +200,7 @@ export default function ProductsView(props) {
                 setMessages([
                   {
                     sender: "c",
-                    message: `Conversa Automática - ${formatDate} - ${data.details.address} - ${data.details.phone}`
+                    message: `Conversa Automática - ${formatDate} - ${data.details.address} - ${data.details.phone} - ${data.details.NIF}`
                   },
                   ...data.conversations.messages
                 ]);

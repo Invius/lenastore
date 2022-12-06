@@ -1,7 +1,7 @@
 
 import './BasketView.css';
 import "lightgallery.js/dist/css/lightgallery.css";
-import React, { lazy, useState, useEffect } from "react";
+import React, { lazy, useState, useEffect, useRef } from "react";
 import * as api from "../../lenaHelpers/APIRequests.js";
 import * as storage from '../../lenaHelpers/LocalStorage.js';
 import { useNavigate } from "react-router-dom";
@@ -30,6 +30,7 @@ export default function ProductsView(props) {
         const isMD = getCSSQuery(useMediaQuery, 'md');
 
         const navigate = useNavigate();
+        const inputRef = useRef();
 
         const dismissModal = () =>{
           const dataToChange = JSON.parse(JSON.stringify(warningData));
@@ -40,7 +41,7 @@ export default function ProductsView(props) {
 
         const confirmDoPurchase = (args) =>{
           props.setIsLoading(true);
-          api.newSale(args.name, args.phoneNumber, args.address, args.products.map((product)=> {
+          api.newSale(args.name, args.phoneNumber, args.address, args.NIF, args.products.map((product)=> {
             return({
               id: product.id, 
               category: product.category
@@ -90,6 +91,7 @@ export default function ProductsView(props) {
         const [name, setName] = useState('');
         const [phoneNumber, setPhoneNumber] = useState('');
         const [address, setAddress] = useState('');
+        const [NIF, setNIF] = useState('');
         const [totalPrice, setTotalPrice] = useState(0);
         const [products, setProducts] = useState([]);
         const [warningData, setWarningData] = useState({
@@ -103,21 +105,21 @@ export default function ProductsView(props) {
 
 
       useEffect(() => {
-        updateProducts();
+        updateProducts(true);
       // eslint-disable-next-line react-hooks/exhaustive-deps
       }, []);
 
       useEffect(() => {
-        console.log({products, test:''});
+        console.log({products});
       // eslint-disable-next-line react-hooks/exhaustive-deps
       }, [products]);
 
-      const updateProducts = () =>{
+      const updateProducts = (isFirst) =>{
         props.setIsLoading(true);
 
         const productsToBasket = storage.getBasket();
         setProducts(productsToBasket);
-        api.newSale('*', '*', '*', productsToBasket.map((product)=> {
+        api.newSale('*', '*', '*', '*', productsToBasket.map((product)=> {
           return({
             id: product.id, 
             category: product.category
@@ -126,7 +128,10 @@ export default function ProductsView(props) {
           if(data && (data.total > -1 || +data.total > -1)){
             console.log(data);
             setTotalPrice(data.total);
+          }else{
+            setTotalPrice(0);
           }
+
 
           console.log({ toremove: data.productsToRemove, products});
 
@@ -139,6 +144,10 @@ export default function ProductsView(props) {
             setProducts(newBasket);
           }
           props.setIsLoading(false);
+          const input = document.querySelector("#name");
+          if(isFirst && input){
+              input.focus();
+          }
         }).catch((err)=>{
           console.log(err);
           props.setIsLoading(false);
@@ -150,14 +159,16 @@ export default function ProductsView(props) {
         const hasName = name.replaceAll(' ', '') !== '' && name.replaceAll(' ', '').length > 10; 
         const hasPhone = phoneNumber.replaceAll(' ', '') !== '' && phoneNumber.replaceAll(' ', '').length === 9; 
         const hasAddress = address.replaceAll(' ', '') !== '' && address.replaceAll(' ', '').length > 10; 
+        const hasNIF = NIF.replaceAll(' ', '') !== '' && NIF.replaceAll(' ', '').length === 9; 
 
-        if(!hasAddress || !hasName || !hasPhone){
+        if(!hasAddress || !hasName || !hasPhone || !hasNIF){
           const dataToChange = JSON.parse(JSON.stringify(warningData));
           
           dataToChange.message = <> Faltam preencher: <br/>
             {!hasName ? <> Nome com mais de 10 letras<br/></> : ''} 
             {!hasPhone ? <> Número de telefone com 9 digitos<br/></> : ''} 
-            {!hasAddress ? <>Morada com mais de 10 letras</>: ''} 
+            {!hasAddress ? <>Morada com mais de 10 letras<br/></>: ''} 
+            {!hasNIF ? <>NIF com 9 números<br/></>: ''} 
           </>;
           dataToChange.isVisible = true;
           dataToChange.isWarning = true;
@@ -173,7 +184,7 @@ export default function ProductsView(props) {
           dataToChange.isWarning = false;
           dataToChange.actions = stateActions[0];
 
-          dataToChange.arg = {products, name, phoneNumber, address};
+          dataToChange.arg = {products, name, phoneNumber, address, NIF};
           
           setWarningData(dataToChange);
         }
@@ -194,6 +205,28 @@ export default function ProductsView(props) {
       const toRemove = (product) =>{
         storage.removeProductFromBasket(product);
         updateProducts();
+      }
+      const Actions = () =>{
+        return(
+            <div className="col-md-6 purchase-actions-bv">
+              <div className="purchase-actions-inner-bv">
+                <span className="display-5 px-3 bg-white rounded shadow basket-total-bv">
+                  total
+                  <br />
+                  {totalPrice ?? 0} €
+                </span>
+                <button
+                  id="products-request"
+                  type="button"
+                  className="btn btn-lg btn-primary mr-2 col-sm basket-button-bv"
+                  title="Products"
+                  onClick={makePurchase}
+                  >
+                    Fazer Pedido 
+                </button>
+              </div>
+              </div>
+        )
       }
 
     return (
@@ -225,6 +258,9 @@ export default function ProductsView(props) {
           <div className="container-fluid mb-3">
             <div className="row">
               <div className="col-md-6">
+              <label className="label-bv">
+                Nome Completo
+              </label>
               <input
                   id="name"
                   name="name"
@@ -234,7 +270,11 @@ export default function ProductsView(props) {
                   required
                   value={name}
                   onChange={(e)=>setName(e.target.value)}
+                  ref={inputRef}
                 />
+              <label className="label-bv">
+                Telemóvel assoc. MBWay
+              </label>
               <input
                   id="phone"
                   name="phone"
@@ -245,6 +285,22 @@ export default function ProductsView(props) {
                   value={phoneNumber}
                   onChange={(e)=>setPhoneNumber(e.target.value)}
                 />
+              <label className="label-bv">
+                NIF
+              </label>
+              <input
+                  id="NIF"
+                  name="NIF"
+                  type='number'
+                  className="form-control adress-basket"
+                  placeholder="NIF"
+                  required
+                  value={NIF}
+                  onChange={(e)=>setNIF(e.target.value)}
+                />
+              <label className="label-bv">
+                Morada Completa
+              </label>
               <input
                   id="adress"
                   name="adress"
@@ -256,21 +312,7 @@ export default function ProductsView(props) {
                   onChange={(e)=>setAddress(e.target.value)}
                 />
               </div>
-              <div className="col-md-6 purchase-actions-bv">
-                <span className="display-5 px-3 bg-white rounded shadow basket-total-bv">
-                  total
-                  <br />
-                  {totalPrice ?? 0} €
-                </span>
-                <button
-                  type="button"
-                  className="btn btn-lg btn-primary mr-2 col-sm basket-button-bv"
-                  title="Products"
-                  onClick={makePurchase}
-                  >
-                    Fazer Pedido 
-                </button>
-              </div>
+              <Actions/>
             </div>
             <div className="row row-space-bv">
               <div className="col-md-6">

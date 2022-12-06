@@ -26,6 +26,10 @@
     background-color: #4630ab;
     border-color: #1a032c;
     padding: 2rem 2.5rem;
+    display: flex;             /* nested flex container */
+    flex-direction: column;    /* vertical alignment of flex items */
+    justify-content: center;   /* center flex items vertically */
+    align-items: center;       /* center flex items horizontally */
 }
 
 
@@ -44,10 +48,34 @@
 
 .basket-total-bv{
     display: inline-block;
+    display: flex;             /* nested flex container */
+    flex-direction: column;    /* vertical alignment of flex items */
+    justify-content: center;   /* center flex items vertically */
+    align-items: center;       /* center flex items horizontally */
 }
 
 .purchase-actions-bv{
     display: flex;
     gap: 16px;
     margin-top: 16px;
+    justify-content: center;
+}
+
+.label-bv{
+    color: white;
+    font-weight: 600;
+    transform: translate(0, 10px);
+}
+
+.purchase-actions-inner-bv{
+    display: flex;
+    gap: 8px;
+    align-items: stretch;
+    height: 50%;
+}
+
+@media only screen and (max-width: 766px) {
+    .purchase-actions-inner-bv{
+        height: 100%;
+    }
 }
