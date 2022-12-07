@@ -160,8 +160,9 @@ export default function ProductsView(props) {
         const hasPhone = phoneNumber.replaceAll(' ', '') !== '' && phoneNumber.replaceAll(' ', '').length === 9; 
         const hasAddress = address.replaceAll(' ', '') !== '' && address.replaceAll(' ', '').length > 10; 
         const hasNIF = NIF.replaceAll(' ', '') !== '' && NIF.replaceAll(' ', '').length === 9; 
+        const hasProducts = !!products.length; 
 
-        if(!hasAddress || !hasName || !hasPhone || !hasNIF){
+        if(!hasAddress || !hasName || !hasPhone || !hasNIF || !hasProducts){
           const dataToChange = JSON.parse(JSON.stringify(warningData));
           
           dataToChange.message = <> Faltam preencher: <br/>
@@ -169,6 +170,7 @@ export default function ProductsView(props) {
             {!hasPhone ? <> Número de telefone com 9 digitos<br/></> : ''} 
             {!hasAddress ? <>Morada com mais de 10 letras<br/></>: ''} 
             {!hasNIF ? <>NIF com 9 números<br/></>: ''} 
+            {!hasProducts ? <>Por favor selecione productos<br/></>: ''} 
           </>;
           dataToChange.isVisible = true;
           dataToChange.isWarning = true;

@@ -11,6 +11,7 @@ import {
   LightgalleryItem
 } from "react-lightgallery";
 import "lightgallery.js/dist/css/lightgallery.css";
+import NotifyNewProduct from "../NotifyNewProduct/NotifyNewProduct";
 const Paging = lazy(() => import("../../components/Paging"));
 const FilterCategory = lazy(() => import("../../lenaViews/CategoryView"));
 const CardServices = lazy(() => import("../../lenaViews/ServicesView"));
@@ -38,6 +39,8 @@ export default function ProductsView(props) {
         const [delivery, setDelivery] = useState(0);
         const [support, setSupport] = useState(0);
         const [returns, setReturns] = useState(0);
+        
+        const [isShowingNotification, setIsShowingNotification] = useState(false);
 
         const [photos, setPhotos] = useState({});
 
@@ -117,6 +120,7 @@ export default function ProductsView(props) {
         if(updateBasketTemp <= limit){
           storage.addProductToBasket(product);
           setUpdateBasket(updateBasketTemp);
+          setIsShowingNotification(true);
         }
       }
 
@@ -225,6 +229,12 @@ export default function ProductsView(props) {
             }
         </div>
           </LightgalleryProvider>
+          {
+            isShowingNotification ?
+            <NotifyNewProduct count={updateBasket} setIsShowing={setIsShowingNotification}/>:
+            <></>
+
+          }
         </React.Fragment>
     )
 }
