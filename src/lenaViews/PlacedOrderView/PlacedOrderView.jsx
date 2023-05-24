@@ -117,7 +117,7 @@ class OrdersView extends Component {
                       </h6>
                       <div className="small">
                         <ul>
-                         {this.state.contacts.split('\n').map((line, index)=> <li key={index}>{line}</li>)}
+                         {this.state.contacts.replaceAll('\n', '\r').split('\r').map((line, index)=> <li key={index}>{line}</li>)}
                         </ul>
                       </div>
                       <div className="mt-2"></div>
