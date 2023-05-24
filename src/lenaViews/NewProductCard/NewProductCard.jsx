@@ -43,7 +43,7 @@ export default function NewProductCard(props) {
         props.setPhotos({...props.photos, [product.id]: [`data:image/jpeg;base64,${img64}`]});
     }
 
-    const height = document.querySelector('.description-container-npc.' + product.id).offsetHeight;
+    const height = document.querySelector(`.description-container-npc.ID${product.id}`).offsetHeight;
     if(height >= 119){
         console.log(height);
         setIsScrollable(true);
@@ -73,7 +73,7 @@ export default function NewProductCard(props) {
                 </div>
                 <div className={'description-name-npc item-npc text-container-npc'}>
                     <h4>{ product ? product.name : '' }</h4>
-                    <div className={"description-container-npc " + product.id + (isScrollable ? " scroll-npc" : "")} >
+                    <div className={"description-container-npc ID" + product.id + (isScrollable ? " scroll-npc" : "")} >
                         <p>{ product ? product.description : '' }</p> 
                     </div>
                 </div>
