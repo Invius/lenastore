@@ -50,6 +50,8 @@ function App() {
         setTimeout(repeatSignal, 100000);
       });
     }
+
+    repeatSignal();
     
     api.config('limitProducts').then((conf)=>{
       if(conf && conf.config && !conf.code){
@@ -62,9 +64,6 @@ function App() {
         storage.setNoService(conf.config);
       }
     });
-
-    repeatSignal();
-
     return ()=>{
 
     }
@@ -91,7 +90,7 @@ function App() {
                         <Routes>
                           <Route exact path="/Error" element={<InternalServerErrorView/>} />
                           <Route exact path="/" element={<HomeLenaView setIsLoading={setIsLoading}/>}/>
-                          <Route exact path="/Products" element={<ProductsView setIsLoading={setIsLoading} />}/>
+                          <Route exact path="/Products" element={<ProductsView setIsLoading={setIsLoading} isLoading={isLoading}/>}/>
                           <Route exact path="/FollowPurchase" element={<FollowPurchaseView setIsLoading={setIsLoading} />}/>
                           <Route exact path="/PlacedOrder" element={<PlacedOrderView setIsLoading={setIsLoading} />}/>
                           <Route exact path="/ViewBasket" element={<BasketView setIsLoading={setIsLoading} />}/>
