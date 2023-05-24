@@ -55,7 +55,10 @@ export default function Footer() {
                         Contactos:
                     </h4>
                     <p className='contacts-text-f'>
-                        {contacts}
+                        {contacts.replaceAll('\n', '\r').split('\r').reduce((acc, next)=>{
+                            return `${acc} \\ ${next}`;
+                        }, "").replace(`\\`, '').substring(0, 40)}
+                        {contacts.length >= 40 ? "..." : ""}
                     </p>
                 </div>
                 <div className='social-f'>

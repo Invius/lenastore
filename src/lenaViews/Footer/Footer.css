@@ -37,4 +37,7 @@
 
 .contacts-text-f{
     font-weight: 700;
+    word-break: break-all;
+    padding: 8px;
+    text-align: start;
 }
