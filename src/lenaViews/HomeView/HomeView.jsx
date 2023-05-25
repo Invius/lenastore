@@ -1,5 +1,5 @@
 import './HomeView.css'
-import React, {useState, useEffect } from "react";
+import React, {useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import * as api from "../../lenaHelpers/APIRequests.js";
 import * as storage from '../../lenaHelpers/LocalStorage.js';
@@ -13,8 +13,7 @@ export default function HomeView(props) {
     const [hasService, setHasService] = useState(false);
 
     const isMD = getCSSQuery(useMediaQuery, 'md');
-
-
+    
     useEffect(()=>{
         api.config('welcome').then((conf)=>{
             const welcome = storage.getWelcome();
@@ -61,27 +60,29 @@ export default function HomeView(props) {
     }
     
     return (
-    <div className='container-intro-hv'>
-            <div className='background-hv'></div>
-            <div className='intro-container-inner-hv'>
-            <div className="logo-intro-hv">
-                    <img src="/images/LenaIntroHome/logo.png" alt="" className='logo-hv' />
-                    <div className="intro-actions-hv">
-                        <div className="intro-text-hv">
-                            <h1>{storeName}</h1>
-                            <p>{introMessage}</p>
-                        </div>
-                        <div className="intro-buttons-container-hv">
-                            <LinkLayout to="/Products" hasHeight={true}>
-                                <Button content={<>Produtos</>} extraClasses={"width-hv"}/>
-                            </LinkLayout> 
-                            <LinkLayout to="/FollowPurchase">
-                                <Button content={<>Acompanhar {isMD ? <br/> : <></>} Encomenda</>} extraClasses={"width-hv"}/>
-                            </LinkLayout> 
-                        </div>                                     
-                    </div>
-                </div>  
-            </div> 
-    </div>    
+        <>
+            <div className='container-intro-hv'>
+                    <div className='background-hv'></div>
+                    <div className='intro-container-inner-hv'>
+                    <div className="logo-intro-hv">
+                            <img src="/images/LenaIntroHome/logo.png" alt="" className='logo-hv' />
+                            <div className="intro-actions-hv">
+                                <div className="intro-text-hv">
+                                    <h1>{storeName}</h1>
+                                    <p>{introMessage}</p>
+                                </div>
+                                <div className="intro-buttons-container-hv">
+                                    <LinkLayout to="/Products" hasHeight={true}>
+                                        <Button content={<>Produtos</>} extraClasses={"width-hv"}/>
+                                    </LinkLayout> 
+                                    <LinkLayout to="/FollowPurchase">
+                                        <Button content={<>Acompanhar {isMD ? <br/> : <></>} Encomenda</>} extraClasses={"width-hv"}/>
+                                    </LinkLayout> 
+                                </div>                               
+                            </div>
+                        </div>  
+                    </div> 
+            </div>    
+        </>
     )
 }

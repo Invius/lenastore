@@ -131,6 +131,10 @@
     width: 100%;
 }
 
+.title-npc{
+    margin: 0;
+}
+
 .scroll-npc::after{
     content: 'V';
     position: sticky;

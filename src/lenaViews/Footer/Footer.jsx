@@ -11,6 +11,7 @@ export default function Footer() {
     const [facebook, setFacebook] = useState('');
     const [contacts, setContacts] = useState('');
 
+
     useEffect(()=>{
         api.config('contacts').then((conf)=>{
             const inContacts = storage.getContacts();
@@ -57,7 +58,7 @@ export default function Footer() {
                     <p className='contacts-text-f'>
                         {contacts.replaceAll('\n', '\r').split('\r').reduce((acc, next)=>{
                             return `${acc} \\ ${next}`;
-                        }, "").replace(`\\`, '').substring(0, 40)}
+                        }, "").replace(`\\`, '').substring(0, 35)}
                         {contacts.length >= 40 ? "..." : ""}
                     </p>
                 </div>

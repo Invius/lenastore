@@ -85,6 +85,7 @@ export default function ProductsView(props) {
                           setUpdateBasket={setUpdateBasket}
                           updateBasket={updateBasket}
                           setIsShowingNotification={setIsShowingNotification}
+                          noMargin={true}
                           />
                     </div>
                     <hr />

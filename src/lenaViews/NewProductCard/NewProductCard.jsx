@@ -10,12 +10,15 @@ import {
     useLightgallery,
   } from "react-lightgallery";
 import Button from '../../lenaComponents/Button/Button';
+import { useMediaQuery } from 'react-responsive';
+import { getCSSQuery } from '../../lenaHelpers/Helpers';
 
 export default function NewProductCard(props) {
     const product = props.data;
     const [img64, setImg64] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [isScrollable, setIsScrollable] = useState(false);
+    const isSMD = getCSSQuery(useMediaQuery, 'smd');
 
     const { openGallery } = useLightgallery();
 
@@ -71,8 +74,8 @@ export default function NewProductCard(props) {
                             </>                                
                     }
                 </div>
-                <div className={'description-name-npc item-npc text-container-npc'}>
-                    <h4>{ product ? product.name : '' }</h4>
+                <div className={'item-npc text-container-npc'}>
+                    <h4 className={isSMD ? 'title-npc': ''}>{ product ? product.name : '' }</h4>
                     <div className={"description-container-npc ID" + product.id + (isScrollable ? " scroll-npc" : "")} >
                         <p>{ product ? product.description : '' }</p> 
                     </div>

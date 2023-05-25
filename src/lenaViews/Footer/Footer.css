@@ -26,6 +26,7 @@
     align-self: center;
     color: white;
     text-align: end;
+    transform: translate(0, 6px);
 }
 
 .contacts-f h4{
@@ -38,6 +39,7 @@
 .contacts-text-f{
     font-weight: 700;
     word-break: break-all;
-    padding: 8px;
+    padding-top: 2px;
     text-align: start;
+    transform: translate(-4px, 0);
 }

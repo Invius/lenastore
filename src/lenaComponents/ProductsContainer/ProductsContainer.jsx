@@ -37,10 +37,6 @@ export default function ProductsContainer(props) {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedCategory]);
-
-    const getID = (product) =>{
-        return `ID${product.id}`;
-    }
     
     useEffect(() => {
         if(productsInjected.length !== 0){
